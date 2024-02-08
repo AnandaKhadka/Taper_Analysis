@@ -1,0 +1,1188 @@
+# Developing taper equations for Sal 
+# Script developed by Ananda Khadka, last modified 4th September, 2022
+
+## Citation####
+citation("rForest") 
+citation("timbeR") 
+citation("ggplot2")
+citation("readr")
+citation("dplyr")
+
+
+#### data ####
+# dat <- taper_data_final 
+# head(dat)
+
+# dat is ready for analysis--- data all
+# copy of dat
+# DAT<- dat
+
+dat<-DAT
+
+# new dataset removing the outliers
+# view outliers
+plot(dat$Hx, dat$Dx)
+
+# lets say, trees with Dx more than 100 cm are outliers
+# get new dataset "dat100", having safety copy DAT
+
+# dat90<-subset(DAT, DAT$dbh<90)
+
+dat100<-subset(dat, dat$Dx<101)
+
+plot(dat100$Hx, dat100$Dx)
+
+# for convenience, rename "dat120" as "dat"
+dat<-dat100
+
+# count number of tree id
+length(unique(dat$Id))
+
+with(dat, plot(Dx, Hx, col=Id) ) 
+
+# dat$Id<-dat$id
+# dat$Hx<-dat$hx
+# dat$Dx<-dat$dx
+# dat$Ht<-dat$h_total
+
+#### Observation ####
+# view observation of H and D for all trees
+with(dat, plot(dat$Hx, dat$Dx)) 
+with(dat, plot(Hx, Dx, col=Id, pch=20, cex=0.5))   
+
+with(dat, plot(Hx, Dx, col=Id, pch=20, cex=0.7,
+               xlab="Height from the tree base (m)",
+               ylab="Stem diameter (cm)"
+               ))  
+with(dat, plot(Dx, Hx, col=Id, pch=20, cex=0.7,
+               xlab="Stem diameter (cm)",
+               ylab="Height from the tree base (m)"
+)) 
+
+# histogram
+
+hist(dat$dbh, probability = TRUE, 
+     main="DBH distribution of sample trees", 
+     xlab="Diameter at breast height",
+    ylab="frequency",
+     xlim = range(dat$dbh),
+    ylim = NULL,
+    density = NULL
+           )
+
+lines(density(dat$dbh), col = 'green', lwd = 3 
+      )
+
+
+
+# install.packages("ggplot2")
+# install.packages("readr")
+# install.packages("dplyr")
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+ggplot(data = dat, aes(x = dat$Hx))
+
+ggplot(data = dat, aes(x = dat$Hx)) +
+  geom_histogram()
+
+# dbh1 <- dat$dbh |>
+#   summarize(mean_price = mean(price))
+# price_stats
+# 
+# ggplot(data = dat, aes(x = dat$Hx)) +
+#   geom_histogram()+
+#   geom_vline(aes(xintercept = dat$dbh), 
+#              dat$dbh, color = "red", linewidth = 2)
+
+
+
+
+# plot only one tree data 
+with(dat[ dat$Id ==15,], plot(Hx, Dx))
+with(dat[ dat$Id ==53,], plot(Hx, Dx)) 
+with(dat[ dat$Id ==66,], plot(Hx, Dx))
+with(dat[ dat$Id ==78,], plot(Hx, Dx)) 
+
+#### par(mfrow=c(2,2)) ####
+#### par(mfrow=c(1,1)) ####
+
+#plot with ggplot2
+# ggplot(dat, aes(Hx, Dx)) + geom_point() + geom_smooth()#stat_quantile()
+#  
+# ggplot(dat, aes(Hx, Dx)) + geom_point() + geom_smooth()
+
+#  data
+dat
+# prepare the data (could be defined in the function directly)
+Id = dat[,"Id"]
+
+#### Main calculation starts from here ####
+
+#### Derive x and y ####
+
+x = dat[,"Hx"]/dat[,"Ht"] #calculate relative heights
+
+# add a column "x" in dat
+
+dat$x<-x
+
+y = dat[,"Dx"] # upper stem diameters at different heights
+
+# add a column "y" in dat
+
+dat$y<-y
+
+#### library####
+library(tidyverse)
+library(caret)
+library(ggpmisc)
+library(splines)
+library(ggplot2)
+library(ModelMetrics)
+library(rForest)
+library(rgl)
+library(devtools)
+library(broom)
+library(dplyr)
+library(cowplot)
+library(ggpubr)
+
+# observe dbh distribution
+hist(DAT$dbh)
+hist(unique(dat$dbh), main = "DBH distribution of sample trees", xlab = "DBH in cm", ylab = "Number of sample trees")
+
+# try model 1 for dbh up to 50 cm
+# try model 2 for dbh 50.1 to 80 cm
+# try model 3 for dbh more than 80.1 cm
+
+# subsetting the data into 3 dbh classes
+dat1<-subset(dat,dat[,19]<55.1)
+dat2<-subset(dat,(dat[,19]>55.0 & dat[,19]<70.1))
+dat3<-subset(dat,dat[,19]>70.0)
+
+hist(unique(dat$dbh), main = "All DBH size", 
+     xlab = "DBH in cm", ylab = "Number of sample trees")
+
+hist(unique(dat1$dbh), main = "DBH class < 55 cm", 
+     xlab = "DBH in cm", ylab = "Number of sample trees")
+
+hist(unique(dat2$dbh), main = "DBH class 55 - 70 cm", 
+     xlab = "DBH in cm", ylab = "Number of sample trees")
+
+hist(unique(dat3$dbh), main = "DBH class > 70 cm", 
+     xlab = "DBH in cm", ylab = "Number of sample trees")
+
+# see dbh in different subsets
+# hist(dat1$dbh)
+# hist(dat2$dbh)
+# hist(dat3$dbh)
+
+hist(dat$dbh, xlab = "DBH (All size in cm)", main = "Number of trees by DBH size")
+hist(dat1$dbh, xlab = "DBH (upto 55 cm)", main = "Number of trees by DBH size")
+hist(dat2$dbh, xlab = "DBH (55-70 cm)", main = "Number of trees by DBH size")
+hist(dat3$dbh, xlab = "DBH (more than 70 cm)", main = "Number of trees by DBH size")
+
+#### Linear regression ####
+
+# The standard linear regression model equation can be written as:
+# upper_stem_dia = a + b*h.
+
+# Compute linear regression model:```{r } 
+# Build the model
+
+# linear model for dbh up to 40 cm
+lm1 <- lm(y ~ x, data = dat1)
+summary(lm1)
+
+par(mfrow=c(1,1))
+plot(dat1$x, dat1$y, col="blue", xlab = "Relative heights",
+     ylab = "Upper stem diameters (cm)", 
+     main = "Observation: upper stem 
+     diameter by relative heights", cex=0.5, cex.lab=0.7,
+     cex.main=0.7)
+
+par(mfrow=c(2,2))
+
+plot(lm1 <- lm(y ~ x, data = dat1), cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+ggplot(dat1, aes(x, y) ) + 
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ x)+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ x, 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat1$pred_lm1 <- lm1 %>% predict(dat1)
+# Model performance
+rmse_lm1<- rmse(dat1$pred_lm1, dat1$Dx)
+rmse_lm1
+mean(dat1$dbh)
+
+
+# linear model for dbh 40-70 cm
+lm2 <- lm(y ~ x, data = dat2)
+summary(lm2)
+
+par(mfrow=c(1,1))
+
+plot(dat2$x, dat2$y, col="blue", xlab = "Relative heights",
+    ylab = "Upper stem diameters (cm)", 
+          main = "Observation: upper stem 
+     diameter by relative heights", cex=0.5, cex.lab=0.7,
+          cex.main=0.7)
+
+par(mfrow=c(2,2))
+plot(lm2 <- lm(y ~ x, data = dat2), cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+par(mfrow=c(1,1))  
+
+ggplot(dat2, aes(x, y) ) + 
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ x)+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ x, 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat2$pred_lm2 <- lm2 %>% predict(dat2)
+# Model performance
+rmse_lm2<- rmse(dat2$pred_lm2, dat2$Dx)
+rmse_lm2
+mean(dat2$dbh)
+
+# linear model for dbh > 70 cm
+
+lm3 <- lm(y ~ x, data = dat3)
+summary(lm3)
+
+par(mfrow=c(1,1))
+
+plot(dat3$x, dat3$y, col="blue", xlab = "Relative heights",
+     ylab = "Upper stem diameters (cm)", 
+     main = "Observation: upper stem 
+     diameter by relative heights", cex=0.5, cex.lab=0.7,
+     cex.main=0.7)
+
+par(mfrow=c(2,2))
+plot(lm3 <- lm(y ~ x, data = dat3), cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+par(mfrow=c(1,1))     
+ggplot(dat3, aes(x, y) ) + 
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ x)+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ x, 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat3$pred_lm3 <- lm3 %>% predict(dat3)
+# Model performance
+rmse_lm3<- rmse(dat3$pred_lm3, dat3$Dx)
+rmse_lm3
+mean(dat3$dbh)
+
+####Polynominal####
+
+# Polynomial model for dbh <55 cm
+pm1<-lm(y ~ poly(x, 2, raw=TRUE), data = dat1)
+summary(pm1)
+
+
+par(mfrow=c(2,2))
+
+plot(pm1 <- lm(y ~ poly(x, 2, raw = TRUE), data = dat1),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+par(mfrow=c(1,1))
+
+ggplot(dat1, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ poly(x, 2, raw = TRUE))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ poly(x, 2, raw = TRUE), data = dat1,
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat1$pred_pm1 <- pm1 %>% predict(dat1)
+# Model performance
+rmse_pm1<- rmse(dat1$pred_pm1, dat1$Dx)
+rmse_pm1
+mean(dat1$dbh)
+
+# Polynomial model for dbh 55-70 cm
+pm2<-lm(y ~ poly(x, 2, raw=TRUE), data = dat2)
+
+par(mfrow=c(2,2))
+
+plot(pm2 <- lm(y ~ poly(x, 2, raw = TRUE), data = dat2),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+ggplot(dat2, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ poly(x, 2, raw = TRUE))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ poly(x, 2, raw = TRUE), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat2$pred_pm2 <- pm2 %>% predict(dat2)
+# Model performance
+rmse_pm2<- rmse(dat2$pred_pm2, dat2$Dx)
+rmse_pm2
+
+# Polynomial model for dbh > 70 cm
+pm3<-lm(y ~ poly(x, 2, raw=TRUE), data = dat3)
+
+par(mfrow=c(2,2))
+
+plot(pm3 <- lm(y ~ poly(x, 2, raw = TRUE), data = dat3),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+ggplot(dat3, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ poly(x, 2, raw = TRUE))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ poly(x, 2, raw = TRUE), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+# Make predictions
+# library(ModelMetrics)
+dat3$pred_pm3 <- pm3 %>% predict(dat3)
+# Model performance
+rmse_pm3<- rmse(dat3$pred_pm3, dat3$Dx)
+rmse_pm3
+
+####Spline####
+# library(splines)
+# Build the model
+
+# Bspline regression model for dbh<55cm
+knots <- quantile(dat1$x, p = c(0.25, 0.5, 0.75))
+sm1 <- lm (dat1$y ~ bs(dat1$x, knots = knots), data = dat1)
+summary(sm1)
+
+# plot
+par(mfrow=c(1,1))
+ggplot(dat1, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+par(mfrow=c(2,2))
+plot(sm1 <- lm (dat1$y ~ bs(dat1$x, knots = knots), data = dat1),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+# Make predictions
+# library(ModelMetrics)
+dat1$pred_sm1 <- sm1 %>% predict(dat1)
+
+# Model performance
+rmse_sm1<- rmse(dat1$pred_sm1, dat1$Dx)
+rmse_sm1
+
+
+# Bspline regression model for dbh 55-70 cm
+knots <- quantile(dat2$x, p = c(0.25, 0.5, 0.75))
+sm2 <- lm (dat2$y ~ bs(dat2$x, knots = knots), data = dat2)
+summary(sm2)
+
+par(mfrow=c(1,1))
+ggplot(dat2, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+par(mfrow=c(2,2))
+plot(sm2 <- lm (dat2$y ~ bs(dat2$x, knots = knots), data = dat2),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+# Make predictions
+# library(ModelMetrics)
+dat2$pred_sm2 <- sm2 %>% predict(dat2)
+
+# Model performance
+rmse_sm2<- rmse(dat2$pred_sm2, dat2$Dx)
+rmse_sm2
+
+
+# Bspline regression model for dbh > 70 cm
+knots <- quantile(dat3$x, p = c(0.25, 0.5, 0.75))
+sm3 <- lm (dat3$y ~ bs(dat3$x, knots = knots), data = dat3)
+summary(sm3)
+
+par(mfrow=c(1,1))
+ggplot(dat3, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+par(mfrow=c(2,2))
+plot(sm3 <- lm (dat3$y ~ bs(dat3$x, knots = knots), data = dat3),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+# Make predictions
+# library(ModelMetrics)
+dat3$pred_sm3 <- sm3 %>% predict(dat3)
+
+# Model performance
+rmse_sm3<- rmse(dat3$pred_sm3, dat3$Dx)
+rmse_sm3
+
+# Bspline regression model for all dbh class
+knots <- quantile(dat$x, p = c(0.25, 0.5, 0.75))
+sm <- lm (dat$y ~ bs(dat$x, knots = knots), data = dat)
+summary(sm)
+
+par(mfrow=c(1,1))
+ggplot(dat, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)
+
+par(mfrow=c(2,2))
+plot(sm <- lm (dat$y ~ bs(dat$x, knots = knots), data = dat),
+     cex=0.3, cex.lab=0.8,
+     cex.main=0.5)
+
+# Make predictions
+# library(ModelMetrics)
+dat$pred_sm <- sm %>% predict(dat)
+
+# Model performance
+rmse_sm<- rmse(dat$pred_sm, dat$Dx)
+rmse_sm
+
+## 4 plots in 1 figure #####
+# since updated Rstudio, some packages needed to remove and install again
+# install.packages("ggplot2")
+
+fig1<-ggplot(dat1, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)+
+  xlim(c(0,1.0))+
+  ylim(c(0,110))
+
+fig1
+
+fig2<-ggplot(dat2, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)+
+  xlim(c(0,1.0))+
+  ylim(c(0,110))
+
+fig2
+ 
+fig3<- ggplot(dat3, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12)+
+  xlim(c(0,1.0))+
+  ylim(c(0,110))
+
+fig3
+
+fig4<-ggplot(dat, aes(x, y) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3))+
+  stat_poly_eq(aes(label = paste0("atop(", ..eq.label.., ",", ..rr.label.., ")")), 
+               formula = y ~ splines::bs(x, df = 3), 
+               parse = TRUE) +
+  theme_bw(base_size = 12) +
+  xlim(c(0,1.0))+
+  ylim(c(0,110))
+
+fig4
+ 
+# in a single figure
+# install.package(ggpubr)
+# library (ggpubr)
+# install.package(cowplot)
+# library (cowplot)
+
+plot_grid(fig1, fig2, fig3, fig4,
+          labels = c("Model for DBH up to 50 cm", 
+                     "Model for DBH class 55 - 70 cm",
+                     "Model for DBH greater than 70 cm",
+                     "Model for all DBH class"), 
+          label_size = 10, 
+          hjust = -1.75, 
+          vjust =  2.0,
+          # align = "h", axis = "tb",
+          ncol = 2, nrow = 2)
+
+
+# ggarrange(fig1, fig2, fig3, fig4,
+#              labels = c("Figure 5: Model for DBH up to 50 cm", 
+#                         "Figure 6: Model for DBH class 55 - 70 cm",
+#                         "Figure 7: Model for DBH greater than 70 cm",
+#                         "Figure 8: Model for all DBH class"), 
+#              ncol = 2, nrow = 2)
+
+
+#### fifth-degree polynomial taper model ####
+#carlos-alberto-silva/rForest
+# rForest: An R Package for Forest Inventory and Analysis
+# The rForest package provides functions to 
+# i) Fit a fifth-degree polynomial taper model,
+# ii) plot tree stems in 2-D and 3-D, 
+# iii) plot taper models in 3-D.
+
+# Installation
+#The development version:
+# library(devtools)
+# devtools::install_github("carlos-alberto-silva/rForest")
+
+#The CRAN version:
+# install.packages("rForest")
+
+#### 2-D visualization of tree stems####
+#Loading rForest and rgl libraries
+# library(rForest)
+# library(rgl)
+# library(devtools)
+# Importing forest inventory data
+# data(ForestInv01) 
+names(dat)
+
+# Subsetting Tree 1
+tree1<-subset(dat,dat[,3]==1)
+
+hi<-tree1$Hx
+di<-tree1$Dx
+
+# Plotting stem 2d
+plotStem2d(hi,di, col="#654321")
+
+#### 3-D visualization of tree stems ####
+plotStem3d(hi,di,alpha=1,col="#654321")
+box3d()
+
+#### Fitting a fifth-degree polynomial taper model####
+# setting model parameters dbh and ht for ALL DBH CLASS
+names(dat)
+
+hi<-dat[,20]
+di<-dat[,21]
+ht<-dat[,18]
+dbh<-dat[,19]
+
+# fitting the fifth-degree polynomial taper model
+fit <- poly5Model(dbh,ht,di,hi, plotxy=TRUE)
+grid()
+
+par(mfcol=c(2,2))
+plot(fit)
+
+summary(fit)
+
+##################################################################
+#### new way to run polynomial 5th degree taper model####
+
+library(ggplot2)
+
+dat <- dat %>% 
+  mutate(did = Dx/dbh,
+         hih = Hx/Ht)
+
+ggplot(dat, aes(x = hih, y = did, group = tree_id))+
+  geom_point()+
+  labs(x = 'hi / h',
+       y = 'di / dbh')
+
+ggplot(dat, aes(x = did, y = hih, group = tree_id))+
+  geom_point()+
+  labs(y = 'hi / h',
+       x = 'di / dbh')
+
+# run this if error like: "Error in .Call.graphics(C_palette2, .Call(C_palette2, NULL)) : 
+# invalid graphics state" happens dev.off()
+
+poli5 <- lm(did~hih+I(hih^2)+I(hih^3)+I(hih^4)+I(hih^5),dat)
+summary(poli5)
+
+dat <- dat %>% 
+  mutate(Dx_poli = predict(poli5)*dbh)
+
+poli_rmse <- dat %>% 
+  summarise(RMSE = sqrt(sum((Dx_poli-Dx)^2)/mean(Dx_poli))) %>% 
+  pull(RMSE) %>% 
+  round(2)
+
+ggplot(dat,aes(x=hih))+
+  geom_point(aes(y = (Dx_poli-Dx)/Dx_poli*100))+
+  geom_hline(aes(yintercept = 0))+
+  scale_y_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+  scale_x_continuous(limits=c(0,1))+
+  labs(x = 'hi / h', y = 'Residuals (%)',
+       title = '5th degree polynomial taper function (Schöepfer, 1966)',
+       subtitle = 'Dispersion of residuals along the stem',
+       caption = paste0('Root Mean Squared Error = ', poli_rmse,'%'))+
+  theme(plot.title.position = 'plot')
+
+##################################################################
+
+# timbeR package####
+# We will perform a regression analysis on the tree_scaling dataset, using the 
+# aforementioned models. The data can be accessed by importing the timbeR package.
+
+# install.packages("devtools")
+options(download.file.method = "libcurl")
+devtools::install_github('sergiocostafh/timbeR')
+
+library(dplyr)
+library(timbeR)
+
+# glimpse(tree_scaling)
+
+glimpse(dat)   # shows glimpse of data; is like a transposed version of print()
+
+# A common way to visualize the stem profile from collected data is to plot the 
+# relationship between relative diameters and relative heights
+# (di / dbh vs hi / ht), as follows.
+
+library(ggplot2)
+
+# trying in package dataset tree_scaling
+# dat <- dat %>% 
+#   mutate(did = di/dbh,
+#          hih = hi/h)
+
+ggplot(dat, aes(x = hih, y = did, group = tree_id))+
+  geom_point()+
+  labs(x = 'hi / h',
+       y = 'di / dbh')
+
+# Now that we understand the dataset, we can start the regression analysis.
+# The first model we will fit is the 5th degree polynomial.
+
+poli5 <- lm(did~hih+I(hih^2)+I(hih^3)+I(hih^4)+I(hih^5),dat)
+summary(poli5)
+
+dat <- dat %>% 
+  mutate(di_poli = predict(poli5)*dbh)
+
+poli_rmse <- dat %>% 
+  summarise(RMSE = sqrt(sum((di_poli-di)^2)/mean(di_poli))) %>% 
+  pull(RMSE) %>% 
+  round(2)
+
+ggplot(dat,aes(x=hih))+
+  geom_point(aes(y = (di_poli-di)/di_poli*100))+
+  geom_hline(aes(yintercept = 0))+
+  scale_y_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+  scale_x_continuous(limits=c(0,1))+
+  labs(x = 'hi / h', y = 'Residuals (%)',
+       title = '5th degree polynomial taper function (Schöepfer, 1966)',
+       subtitle = 'Dispersion of residuals along the stem',
+       caption = paste0('Root Mean Squared Error = ', poli_rmse,'%'))+
+  theme(plot.title.position = 'plot')
+
+
+# The 5th degree polynomial is a fixed-form taper function that represents the 
+# average shape of the stem profiles used to fit the model.
+# For this dataset, the Root Mean Square Error of this model was 3.01% and 
+# we can see that the residues are heteroskedastic.
+# Let’s see if we can do better with the Bi model.Due to its non-linear nature, 
+# we will use the nlsLM function from the minpack.lm package to estimate the 
+# model parameters.
+
+install.packages("minpack.lm")
+library(minpack.lm)
+
+bi <-  nlsLM(di ~ taper_bi(dbh, h, hih, b0, b1, b2, b3, b4, b5, b6),
+             data=tree_scaling,
+             start=list(b0=1.8,b1=-0.2,b2=-0.04,b3=-0.9,b4=-0.0006,b5=0.07,b6=-.14))
+summary(bi)
+
+tree_scaling <- tree_scaling %>% 
+  mutate(di_bi = predict(bi))
+
+bi_rmse <- tree_scaling %>% 
+  summarise(RMSE = sqrt(sum((di_bi-di)^2)/mean(di_bi))) %>% 
+  pull(RMSE) %>% 
+  round(2)
+
+ggplot(tree_scaling,aes(x=hih))+
+  geom_point(aes(y = (di_bi-di)/di_bi*100))+
+  geom_hline(aes(yintercept = 0))+
+  scale_y_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+  scale_x_continuous(limits=c(0,1))+
+  labs(x = 'hi / h', y = 'Residuals (%)',
+       title = 'Bi (2000) trigonometric variable-form taper function',
+       subtitle = 'Dispersion of residuals along the stem',
+       caption = paste0('Root Mean Squared Error = ', bi_rmse,'%'))+
+  theme(plot.title.position = 'plot')
+
+# The Bi model performed better than the polynomial function, based on the RMSE value.
+# However, we still have heteroscedasticity in the residues. Let’s see what we get by
+# \adjusting the Kozak (2004) model. We will treat the p parameter of this model as
+# one more to be estimated using the nlsLM function.
+
+kozak <- nlsLM(di ~ taper_kozak(dbh, h, hih, b0, b1, b2, b3, b4, b5, b6, b7, b8, p),
+              start=list(b0=1.00,b1=.97,b2=.03,b3=.49,b4=-
+                           0.87,b5=0.50,b6=3.88,b7=0.03,b8=-0.19, p = .1),
+              data = tree_scaling,
+              control = nls.lm.control(maxiter = 1000, maxfev = 2000)
+)
+summary(kozak)
+
+tree_scaling <- tree_scaling %>% 
+  mutate(di_kozak = predict(kozak))
+
+kozak_rmse <- tree_scaling %>% 
+  summarise(RMSE = sqrt(sum((di_kozak-di)^2)/mean(di_kozak))) %>% 
+  pull(RMSE) %>% 
+  round(2)
+
+ggplot(tree_scaling, aes(x=hih))+
+  geom_point(aes(y = (di_kozak-di)/di_kozak*100))+
+  geom_hline(aes(yintercept = 0))+
+  scale_y_continuous(limits=c(-100,100), breaks = seq(-100,100,20))+
+  scale_x_continuous(limits=c(0,1))+
+  labs(x = 'hi / h', y = 'Residuals (%)',
+       title = 'Kozak (2004) variable-form taper function',
+       subtitle = 'Dispersion of residuals along the stem',
+       caption = paste0('Root Mean Squared Error = ', kozak_rmse,'%'))+
+  theme(plot.title.position = 'plot')
+
+# By fitting the Kozak (2004) model, we obtained a lower RMSE and also managed to
+# homogenize the dispersion of the residues.
+# 
+# Using taper models
+# In the previous section we adjusted the three models that have auxiliary functions
+# implemented in the timbeR package. Now, let’s explore the functions that allow us
+# to apply the fitted models in practice.
+
+dbh <- 25
+h <- 20
+
+# All auxiliary functions have the argument coef, where a vector 
+# containing the fitted coefficients of the model must be declared. 
+# This vector can be accessed by using the base R function coef. 
+# For the Kozak (2004) model, we will separate the p parameter from the 
+# others.
+
+coef_poli <- coef(poli5)
+coef_bi <- coef(bi)
+coef_kozak <- coef(kozak)[-10]
+p_kozak <- coef(kozak)[10]
+
+
+# Now we can estimate the diameter (di) at a given height (hi). 
+# Let’s assume hi = 15 for this example.
+
+hi <- 15
+
+poly5_di(dbh, h, hi, coef_poli)
+#> [1] 9.224517
+bi_di(dbh, h, hi, coef_bi)
+#> [1] 8.559173
+kozak_di(dbh, h, hi, coef_kozak, p = p_kozak)
+#> [1] 8.92263
+#> 
+#Note that there is some variation between the predictions of the models
+# We can better observe this effect by modeling the complete profile 
+# of our example tree.
+
+ hi <- seq(0.1,h,.1)
+
+ggplot(mapping=aes(x=hi))+
+  geom_line(aes(y=poly5_di(dbh, h, hi, coef_poli), linetype = '5th degree polynomial'))+
+  geom_line(aes(y=bi_di(dbh, h, hi, coef_bi), linetype = 'Bi (2000)'))+
+  geom_line(aes(y=kozak_di(dbh, h, hi, coef_kozak, p_kozak), linetype = 'Kozak (2004)'))+
+  scale_linetype_manual(name = 'Fitted models', values = c('solid','dashed','dotted'))+
+  labs(x = 'hi (m)',
+       y = 'Predicted di (cm)')
+
+# For the prediction of the height at which a given diameter occurs the 
+# procedure is similar to the one presented above, but this time we must
+# declare the argument di instead of hi, for the corresponding functions.
+
+
+di <- 10
+
+poly5_hi(dbh, h, di, coef_poli)
+#> [1] 14.40821
+bi_hi(dbh, h, di, coef_bi)
+#> [1] 14.09805
+kozak_hi(dbh, h, di, coef_kozak, p_kozak)
+#> [1] 14.2817
+
+# For this example the application of the three models resulted in very 
+# similar predictions.
+# The functions for estimating total and partial volumes are similar to 
+# those presented so far, with some additional arguments. The following 
+# procedures calculate the volume of the entire stem.
+
+poly5_vol(dbh, h, coef_poli)
+#> [1] 0.414718
+bi_vol(dbh, h, coef_bi)
+#> [1] 0.4128356
+kozak_vol(dbh, h, coef_kozak, p_kozak)
+#> [1] 0.413102
+# We can also estimate partial volumes by declaring the initial height 
+# h0 and the final height hi.
+
+hi = 15
+h0 = .2
+
+poly5_vol(dbh, h, coef_poli, hi, h0)
+#> [1] 0.3884416
+bi_vol(dbh, h, coef_bi, hi, h0)
+#> [1] 0.3901346
+kozak_vol(dbh, h, coef_kozak, p_kozak, hi, h0)
+#> [1] 0.3863585
+
+# Finally, we will see how the three models estimate the volume and 
+# quantity of logs from different wood products. We start by defining 
+# the assortments.
+# The assortment table must contain five columns, in order: the product 
+# name, the log diameter at the small end (cm), the minimum length (m),
+# the maximum length (m), and the loss resulting from cutting each log 
+# (cm). Let’s transcribe the following table into a data.frame. A point
+# of attention is that the wood products must be ordered in the 
+# data.frame from the most valuable to the least valuable, in order to 
+# give preference to the products of highest commercial value.
+
+assortments <- data.frame(
+  NAME = c('> 15','4-15'),
+  SED = c(15,4),
+  MINLENGTH = c(2.65,2),
+  MAXLENGTH = c(2.65,4.2),
+  LOSS = c(5,5)
+)
+
+# estimate volume and quantity of wood products in a tree stem ####
+
+poly5_logs(dbh, h, coef_poli, assortments)
+
+bi_logs(dbh, h, coef_bi, assortments)
+
+kozak_logs(dbh, h, coef_kozak, p_kozak, assortments)
+
+# There are several additional arguments in the log volume/quantity estimation 
+# functions that change the way the calculations are performed. It is highly 
+# recommended that you read the function’s help to understand all its functionality.
+
+# An additional feature of the timbeR package is the possibility to visualize
+# how the processing of trees is performed by the logs estimation functions. 
+# The arguments of these functions are practically the same arguments of the 
+# functions presented above.
+
+poly5_logs_plot(dbh, h, coef_poli, assortments)
+
+bi_logs_plot(dbh, h, coef_bi, assortments)
+
+kozak_logs_plot(dbh, h, coef_kozak, p_kozak, assortments)
+
+# Using timbeR functions at forest inventory scale ####
+
+# Log estimation functions are performed one tree at a time. 
+# Applying these functions to multiple trees can be performed in different ways. 
+# Below are some examples using the base R function mapply and using pmap function
+# from purrr package.
+
+# Using mapply
+
+tree_data <- data.frame(dbh = c(18.3, 23.7, 27.2, 24.5, 20, 19.7),
+                        h = c(18, 24, 28, 24, 18.5, 19.2))
+
+assortment_vol <- mapply(
+  poly5_logs,
+  dbh = tree_data$dbh,
+  h = tree_data$h,
+  SIMPLIFY = T,
+  MoreArgs = list(
+    coef = coef_poli,
+    assortments = assortments,
+    stump_height = 0.2,
+    total_volume = T,
+    only_vol = T
+  )
+) %>%
+  t()
+
+
+assortment_vol
+
+
+# Binding tree_data and volumes output
+
+library(tidyr)
+
+cbind(tree_data, assortment_vol) %>% 
+  unnest()
+
+
+library(purrr)
+
+tree_data %>% 
+  mutate(coef = list(coef_poli),
+         assortments = list(assortments),
+         stump_height = 0.2,
+         total_volume = T,
+         only_vol = T) %>% 
+  mutate(assortment_vol = pmap(.,poly5_logs)) %>% 
+  select(dbh, h, assortment_vol) %>% 
+  unnest(assortment_vol)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# library(broom)
+fit_rforest<-tidy(fit)
+fit_rforest
+write.csv(fit_rforest, "fit_rforest.csv")
+
+#### RMSE rForest, need to recalculate with Shiva dai ####
+
+# Make predictions
+# library(ModelMetrics)
+dat$pred_fit <- fit %>% predict(dat)
+
+# Model performance
+rmse_fit<- rmse(dat$pred_fit, dat$Dx)
+rmse_fit
+
+# Plotting stem 2d
+plotStem2d(hi,di, col="grey")
+
+#### 3-D visualization of tree stems ####
+plotStem3d(hi,di,alpha=1,col="#654321")
+box3d()
+
+#### 3-D visualization of taper models####
+# Setting parameters for the 3-D visualization
+dbh<-30 # cm
+height<-25 # m
+
+# Plotting the taper model in 3-D
+VisTaperShape3d(model=fit,dbh=dbh,height=height,col="blue",solid=TRUE)
+box3d()
+grid3d(c("x+","y+"))
+aspect3d(0.3,0.3,1)
+
+# Plotting the taper model in 3-D (solid=FALSE)
+VisTaperShape3d(model=fit,dbh=dbh,height=height,col="forestgreen",solid=FALSE)
+box3d()
+grid3d(c("x+","y+"))
+aspect3d(0.3,0.3,1)
+
+#######################################################
+# setting model parameters dbh and ht for DBH < 55 cm
+hi1<-dat1[,20]
+di1<-dat1[,21]
+ht1<-dat1[,18]
+dbh1<-dat1[,19]
+
+# fitting the fifth-degree polynomial taper model
+fit1 <- poly5Model(dbh1,ht1,di1,hi1, plotxy=TRUE)
+grid()
+
+par(mfcol=c(2,2))
+plot(fit1)
+
+summary(fit1)
+
+# library(broom)
+fit_rforest1<-tidy(fit1)
+fit_rforest1
+write.csv(fit_rforest1, "fit_rforest1.csv")
+
+
+#######################################################
+# setting model parameters dbh and ht for DBH 55-70 cm
+hi2<-dat2[,20]
+di2<-dat2[,21]
+ht2<-dat2[,18]
+dbh2<-dat2[,19]
+
+# fitting the fifth-degree polynomial taper model
+fit2 <- poly5Model(dbh2,ht2,di2,hi2, plotxy=TRUE)
+grid()
+
+par(mfcol=c(2,2))
+plot(fit2)
+
+
+summary(fit2)
+
+# library(broom)
+fit_rforest2<-tidy(fit2)
+fit_rforest2
+write.csv(fit_rforest2, "fit_rforest2.csv")
+
+
+#######################################################
+# setting model parameters dbh and ht for DBH greater than 70 cm
+hi3<-dat3[,20]
+di3<-dat3[,21]
+ht3<-dat3[,18]
+dbh3<-dat3[,19]
+
+# fitting the fifth-degree polynomial taper model
+fit3 <- poly5Model(dbh3,ht3,di3,hi3, plotxy=TRUE)
+grid()
+
+par(mfcol=c(2,2))
+plot(fit3)
+
+summary(fit3)
+
+# library(broom)
+fit_rforest3<-tidy(fit3)
+fit_rforest3
+write.csv(fit_rforest3, "fit_rforest3.csv")
+
+
+####calculation ends here####
+
+####violin plot####
+ggplot(dat, aes(x=Dx, y=Hx)) + 
+  geom_violin(trim=TRUE)
+ + stat_summary(fun.data="mean_sdl", mult=1, 
+                 geom="crossbar", width=0.2 )
+ + stat_summary(fun.data=mean_sdl, mult=1, 
+                 geom="pointrange", color="red")
+
+#### Testing the models ####
+# Linear model
+-- Y= a + bX
+
+mean(dat$dbh) #dbh=60.6 cm
+
+# Y= 
+67.4-(64.5 * 15/30)
+67.4-(64.5 * 25/30)
+67.4-(64.5 * 1.3/30)
+
+# observation of actual dbh and model predicted dbh based on proportional Ht
+plot(dat$dbh, 67.4-(64.5 * 1.3/dat$Ht),
+     xlab = "Actual DBH",
+     ylab= "Pred DBH") #, xlim= c(0, 120), 
+     #ylim= c(0, 120))
+#abline(0, 1)
+
+cor(dat$dbh, 67.4-(64.5 * 1.3/dat$Ht))
+
+plot(dat$dbh, 67.4-(64.5 * 1.3/dat$Ht),
+     xlab = "Actual DBH",
+     ylab= "Pred DBH") 
+
+# Polynomial spline model
+-- Y= a + b*X+cX2+dX3
+# observation of actual dbh and model predicted dbh based on proportional Ht
+
+plot(dat$dbh, 71.1 - (45.3 * (1.3/dat$Ht)) - (27.8* (1.3/dat$Ht)^2 )
+     - (73.3 * (1.3/dat$Ht)^3),
+     xlab = "Actual DBH",
+     ylab= "Pred DBH")
+abline(0,1)
+
+# 5th degree polnomial  model
+ 
+-- lm(formula = 
+-- I(di/dbh) ~ I(x) + I((x)^2) + I((x)^3) + I((x)^4) + I((x)^5))
+
+# -6.16 * (1.3/50) + 29.04 * (1.3/50)^2 -64.16 * (1.3/50)^3 + 61.99 * 
+#   (1.3/50)^4 - 22.01 * (1.3/50)^5
+
+# observation of actual dbh and model predicted dbh based on proportional Ht
+plot(dat$dbh, (-6.16 * (1.3/dat$Ht) + 29.04 * (1.3/dat$Ht)^2 -64.16 * 
+       (1.3/dat$Ht)^3 + 61.99 * (1.3/dat$Ht)^4 - 22.01 * (1.3/dat$Ht)^5),
+        xlab = "Actual DBH",
+        ylab= "Pred DBH",
+        xlim = c (20, 50),
+     ylim = c (-1, 2)
+     )
+
+-6.16 * (dat$Dx/dat$dbh) + 29.04 * (dat$Dx/dat$dbh)^2 -64.16 * 
+       (dat$Dx/dat$dbh)^3 + 61.99 * (dat$Dx/dat$dbh)^4 - 22.01 * 
+       (dat$Dx/dat$dbh)^5
+
+# for upper stem diameter=20 and dbh=50
+
+# di/DBH= (at 20 m height for a tree with 25 m total H)=0.27
+1.29 -6.16 * (20/25) + 29.04 * (20/25)^2 -64.16 * 
+  (20/25)^3 + 61.99 * (20/25)^4 - 22.01 * 
+  (20/25)^5
+#di= (say DBH=45 cm) == 12.44 cm
+45*(1.29 -6.16 * (20/25) + 29.04 * (20/25)^2 -64.16 * 
+      (20/25)^3 + 61.99 * (20/25)^4 - 22.01 * 
+      (20/25)^5)
+
+
+
+plot(dat$dbh, (-6.16 * (dat$Dx/dat$dbh) + 29.04 * (dat$Dx/dat$dbh)^2 -64.16 * 
+                 (dat$Dx/dat$dbh)^3 + 61.99 * (dat$Dx/dat$dbh)^4 - 22.01 * 
+                 (dat$Dx/dat$dbh)^5),
+     # xlab = "Actual DBH",
+     # ylab= "Pred DBH",
+     # xlim = c (20, 50),
+     # ylim = c (-1, 2)
+)

@@ -1,0 +1,1341 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Taper\_paper\_with\_timbeR},
+  pdfauthor={Ananda},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Taper\_paper\_with\_timbeR}
+\author{Ananda}
+\date{2024-01-26}
+
+\begin{document}
+\maketitle
+
+\hypertarget{r-markdown}{%
+\subsection{R Markdown}\label{r-markdown}}
+
+This is an R Markdown document. Markdown is a simple formatting syntax
+for authoring HTML, PDF, and MS Word documents. For more details on
+using R Markdown see \url{http://rmarkdown.rstudio.com}.
+
+When you click the \textbf{Knit} button a document will be generated
+that includes both content as well as the output of any embedded R code
+chunks within the document. You can embed an R code chunk like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(cars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00
+\end{verbatim}
+
+\hypertarget{including-plots}{%
+\subsection{Including Plots}\label{including-plots}}
+
+You can also embed plots, for example:
+
+\includegraphics{Taper_v1_files/figure-latex/pressure-1.pdf}
+
+Note that the \texttt{echo\ =\ FALSE} parameter was added to the code
+chunk to prevent printing of the R code that generated the plot.
+
+\hypertarget{developing-taper-equations-for-sal}{%
+\section{Developing taper equations for
+Sal}\label{developing-taper-equations-for-sal}}
+
+\hypertarget{script-developed-by-ananda-khadka-last-modified-4th-september-2022}{%
+\section{Script developed by Ananda Khadka, last modified 4th September,
+2022}\label{script-developed-by-ananda-khadka-last-modified-4th-september-2022}}
+
+\hypertarget{citation}{%
+\subsection{Citation}\label{citation}}
+
+citation(``rForest'')
+
+\hypertarget{data}{%
+\paragraph{data}\label{data}}
+
+\hypertarget{dat---taper_data_final}{%
+\section{dat \textless-
+taper\_data\_final}\label{dat---taper_data_final}}
+
+\hypertarget{headdat}{%
+\section{head(dat)}\label{headdat}}
+
+\hypertarget{dat-is-ready-for-analysis-data-all}{%
+\section{dat is ready for analysis--- data
+all}\label{dat-is-ready-for-analysis-data-all}}
+
+\hypertarget{copy-of-dat}{%
+\section{copy of dat}\label{copy-of-dat}}
+
+DAT\textless- dat
+
+\hypertarget{new-dataset-removing-the-outliers}{%
+\section{new dataset removing the
+outliers}\label{new-dataset-removing-the-outliers}}
+
+\hypertarget{view-outliers}{%
+\section{view outliers}\label{view-outliers}}
+
+plot(dat\(Hx, dat\)Dx)
+
+\hypertarget{lets-say-trees-with-dx-more-than-120-cm-are-outliers}{%
+\section{lets say, trees with Dx more than 120 cm are
+outliers}\label{lets-say-trees-with-dx-more-than-120-cm-are-outliers}}
+
+\hypertarget{get-new-dataset-dat120-having-safety-copy-dat}{%
+\section{get new dataset ``dat120'', having safety copy
+DAT}\label{get-new-dataset-dat120-having-safety-copy-dat}}
+
+dat90\textless-subset(DAT, DAT\$dbh\textless90)
+
+dat90\textless-subset(dat90, dat90\$Dx\textless101)
+
+plot(dat90\(Hx, dat90\)Dx)
+
+\hypertarget{for-convenience-rename-dat120-as-dat}{%
+\section{for convenience, rename ``dat120'' as
+``dat''}\label{for-convenience-rename-dat120-as-dat}}
+
+dat\textless-dat90
+
+\hypertarget{count-number-of-tree-id}{%
+\section{count number of tree id}\label{count-number-of-tree-id}}
+
+length(unique(dat\$Id))
+
+with(dat, plot(Hx, Dx, col=Id) )
+
+\hypertarget{datid-datid}{%
+\section{\texorpdfstring{dat\(Id<-dat\)id}{datId\textless-datid}}\label{datid-datid}}
+
+\hypertarget{dathx-dathx}{%
+\section{\texorpdfstring{dat\(Hx<-dat\)hx}{datHx\textless-dathx}}\label{dathx-dathx}}
+
+\hypertarget{datdx-datdx}{%
+\section{\texorpdfstring{dat\(Dx<-dat\)dx}{datDx\textless-datdx}}\label{datdx-datdx}}
+
+\hypertarget{datht-dath_total}{%
+\section{\texorpdfstring{dat\(Ht<-dat\)h\_total}{datHt\textless-dath\_total}}\label{datht-dath_total}}
+
+\hypertarget{observation}{%
+\paragraph{Observation}\label{observation}}
+
+\hypertarget{view-observation-of-h-and-d-for-all-trees}{%
+\section{view observation of H and D for all
+trees}\label{view-observation-of-h-and-d-for-all-trees}}
+
+with(dat, plot(dat\(Hx, dat\)Dx)) with(dat, plot(Hx, Dx, col=Id, pch=20,
+cex=0.5))
+
+with(dat, plot(Hx, Dx, col=Id, pch=20, cex=0.7, xlab=``Height from the
+tree base (m)'', ylab=``Stem diameter (cm)'' ))\\
+\# install.packages(``ggplot2'') \# install.packages(``readr'') \#
+install.packages(``dplyr'') library(ggplot2) library(readr)
+library(dplyr)
+
+ggplot(data = dat, aes(x = dat\$Hx))
+
+ggplot(data = dat, aes(x = dat\$Hx)) + geom\_histogram()
+
+\hypertarget{dbh1---datdbh-summarizemean_price-meanprice-price_stats-ggplotdata-dat-aesx-dathx}{%
+\section{\texorpdfstring{dbh1 \textless-
+dat\(dbh |> # summarize(mean_price = mean(price)) # price_stats # # ggplot(data = dat, aes(x = dat\)Hx))
++}{dbh1 \textless- datdbh \textbar\textgreater{} \# summarize(mean\_price = mean(price)) \# price\_stats \# \# ggplot(data = dat, aes(x = datHx)) +}}\label{dbh1---datdbh-summarizemean_price-meanprice-price_stats-ggplotdata-dat-aesx-dathx}}
+
+\hypertarget{geom_histogram}{%
+\section{geom\_histogram()+}\label{geom_histogram}}
+
+\hypertarget{geom_vlineaesxintercept-datdbh-datdbh-color-red-linewidth-2}{%
+\section{\texorpdfstring{geom\_vline(aes(xintercept =
+dat\(dbh), # dat\)dbh, color = ``red'', linewidth =
+2)}{geom\_vline(aes(xintercept = datdbh), \# datdbh, color = ``red'', linewidth = 2)}}\label{geom_vlineaesxintercept-datdbh-datdbh-color-red-linewidth-2}}
+
+\hypertarget{plot-only-one-tree-data}{%
+\section{plot only one tree data}\label{plot-only-one-tree-data}}
+
+with(dat{[} dat\(Id ==15,], plot(Hx, Dx)) with(dat[ dat\)Id ==53,{]},
+plot(Hx, Dx)) with(dat{[}
+dat\(Id ==66,], plot(Hx, Dx)) with(dat[ dat\)Id ==78,{]}, plot(Hx, Dx))
+
+\hypertarget{parmfrowc22}{%
+\paragraph{par(mfrow=c(2,2))}\label{parmfrowc22}}
+
+\hypertarget{parmfrowc11}{%
+\paragraph{par(mfrow=c(1,1))}\label{parmfrowc11}}
+
+\#plot with ggplot2 \# ggplot(dat, aes(Hx, Dx)) + geom\_point() +
+geom\_smooth()\#stat\_quantile() \#\\
+\# ggplot(dat, aes(Hx, Dx)) + geom\_point() + geom\_smooth()
+
+\hypertarget{data-1}{%
+\section{data}\label{data-1}}
+
+dat \# prepare the data (could be defined in the function directly) Id =
+dat{[},``Id''{]}
+
+\hypertarget{main-calculation-starts-from-here}{%
+\paragraph{Main calculation starts from
+here}\label{main-calculation-starts-from-here}}
+
+\hypertarget{derive-x-and-y}{%
+\paragraph{Derive x and y}\label{derive-x-and-y}}
+
+x = dat{[},``Hx''{]}/dat{[},``Ht''{]} \#calculate relative heights
+
+\hypertarget{add-a-column-x-in-dat}{%
+\section{add a column ``x'' in dat}\label{add-a-column-x-in-dat}}
+
+dat\$x\textless-x
+
+y = dat{[},``Dx''{]} \# upper stem diameters at different heights
+
+\hypertarget{add-a-column-y-in-dat}{%
+\section{add a column ``y'' in dat}\label{add-a-column-y-in-dat}}
+
+dat\$y\textless-y
+
+\hypertarget{library}{%
+\paragraph{library}\label{library}}
+
+library(tidyverse) library(caret) library(ggpmisc) library(splines)
+library(ggplot2) library(ModelMetrics) library(rForest) library(rgl)
+library(devtools) library(broom) library(dplyr) library(cowplot)
+library(ggpubr)
+
+\hypertarget{observe-dbh-distribution}{%
+\section{observe dbh distribution}\label{observe-dbh-distribution}}
+
+hist(DAT\(dbh) hist(unique(dat\)dbh), main = ``DBH distribution of
+sample trees'', xlab = ``DBH in cm'', ylab = ``Number of sample trees'')
+
+\hypertarget{try-model-1-for-dbh-up-to-50-cm}{%
+\section{try model 1 for dbh up to 50
+cm}\label{try-model-1-for-dbh-up-to-50-cm}}
+
+\hypertarget{try-model-2-for-dbh-50.1-to-80-cm}{%
+\section{try model 2 for dbh 50.1 to 80
+cm}\label{try-model-2-for-dbh-50.1-to-80-cm}}
+
+\hypertarget{try-model-3-for-dbh-more-than-80.1-cm}{%
+\section{try model 3 for dbh more than 80.1
+cm}\label{try-model-3-for-dbh-more-than-80.1-cm}}
+
+\hypertarget{subsetting-the-data-into-3-dbh-classes}{%
+\section{subsetting the data into 3 dbh
+classes}\label{subsetting-the-data-into-3-dbh-classes}}
+
+dat1\textless-subset(dat,dat{[},19{]}\textless55.1)
+dat2\textless-subset(dat,(dat{[},19{]}\textgreater55.0 \&
+dat{[},19{]}\textless70.1))
+dat3\textless-subset(dat,dat{[},19{]}\textgreater70.0)
+
+hist(unique(dat\$dbh), main = ``All DBH size'', xlab = ``DBH in cm'',
+ylab = ``Number of sample trees'')
+
+hist(unique(dat1\$dbh), main = ``DBH class \textless{} 55 cm'', xlab =
+``DBH in cm'', ylab = ``Number of sample trees'')
+
+hist(unique(dat2\$dbh), main = ``DBH class 55 - 70 cm'', xlab = ``DBH in
+cm'', ylab = ``Number of sample trees'')
+
+hist(unique(dat3\$dbh), main = ``DBH class \textgreater{} 70 cm'', xlab
+= ``DBH in cm'', ylab = ``Number of sample trees'')
+
+\hypertarget{see-dbh-in-different-subsets}{%
+\section{see dbh in different
+subsets}\label{see-dbh-in-different-subsets}}
+
+\hypertarget{histdat1dbh-histdat2dbh}{%
+\section{\texorpdfstring{hist(dat1\(dbh) # hist(dat2\)dbh)}{hist(dat1dbh) \# hist(dat2dbh)}}\label{histdat1dbh-histdat2dbh}}
+
+\hypertarget{histdat3dbh}{%
+\section{hist(dat3\$dbh)}\label{histdat3dbh}}
+
+hist(dat\(dbh, xlab = "DBH (All size in cm)", main = "Number of trees by DBH size") hist(dat1\)dbh,
+xlab = ``DBH (upto 55 cm)'', main = ``Number of trees by DBH size'')
+hist(dat2\(dbh, xlab = "DBH (55-70 cm)", main = "Number of trees by DBH size") hist(dat3\)dbh,
+xlab = ``DBH (more than 70 cm)'', main = ``Number of trees by DBH
+size'')
+
+\hypertarget{linear-regression}{%
+\paragraph{Linear regression}\label{linear-regression}}
+
+\hypertarget{the-standard-linear-regression-model-equation-can-be-written-as}{%
+\section{The standard linear regression model equation can be written
+as:}\label{the-standard-linear-regression-model-equation-can-be-written-as}}
+
+\hypertarget{upper_stem_dia-a-bh.}{%
+\section{upper\_stem\_dia = a + b*h.}\label{upper_stem_dia-a-bh.}}
+
+\hypertarget{compute-linear-regression-modelr}{%
+\section{Compute linear regression model:```\{r
+\}}\label{compute-linear-regression-modelr}}
+
+\hypertarget{build-the-model}{%
+\section{Build the model}\label{build-the-model}}
+
+\hypertarget{linear-model-for-dbh-up-to-40-cm}{%
+\section{linear model for dbh up to 40
+cm}\label{linear-model-for-dbh-up-to-40-cm}}
+
+lm1 \textless- lm(y \textasciitilde{} x, data = dat1) summary(lm1)
+
+par(mfrow=c(1,1)) plot(dat1\(x, dat1\)y, col=``blue'', xlab = ``Relative
+heights'', ylab = ``Upper stem diameters (cm)'', main = ``Observation:
+upper stem diameter by relative heights'', cex=0.5, cex.lab=0.7,
+cex.main=0.7)
+
+par(mfrow=c(2,2))
+
+plot(lm1 \textless- lm(y \textasciitilde{} x, data = dat1), cex=0.3,
+cex.lab=0.8, cex.main=0.5)
+
+ggplot(dat1, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} x)+ stat\_poly\_eq(aes(label =
+paste0(``atop('', ..eq.label.., ``,'', ..rr.label.., ``)'')), formula =
+y \textasciitilde{} x, parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions}{%
+\section{Make predictions}\label{make-predictions}}
+
+\hypertarget{librarymodelmetrics}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics}}
+
+dat1\(pred_lm1 <- lm1 %>% predict(dat1) # Model performance rmse_lm1<- rmse(dat1
+\)pred\_lm1, dat1\(Dx) rmse_lm1 mean(dat1\)dbh)
+
+\hypertarget{linear-model-for-dbh-40-70-cm}{%
+\section{linear model for dbh 40-70
+cm}\label{linear-model-for-dbh-40-70-cm}}
+
+lm2 \textless- lm(y \textasciitilde{} x, data = dat2) summary(lm2)
+
+par(mfrow=c(1,1))
+
+plot(dat2\(x, dat2\)y, col=``blue'', xlab = ``Relative heights'', ylab =
+``Upper stem diameters (cm)'', main = ``Observation: upper stem diameter
+by relative heights'', cex=0.5, cex.lab=0.7, cex.main=0.7)
+
+par(mfrow=c(2,2)) plot(lm2 \textless- lm(y \textasciitilde{} x, data =
+dat2), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+par(mfrow=c(1,1))
+
+ggplot(dat2, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} x)+ stat\_poly\_eq(aes(label =
+paste0(``atop('', ..eq.label.., ``,'', ..rr.label.., ``)'')), formula =
+y \textasciitilde{} x, parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions-1}{%
+\section{Make predictions}\label{make-predictions-1}}
+
+\hypertarget{librarymodelmetrics-1}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-1}}
+
+dat2\(pred_lm2 <- lm2 %>% predict(dat2) # Model performance rmse_lm2<- rmse(dat2
+\)pred\_lm2, dat2\(Dx) rmse_lm2 mean(dat2\)dbh)
+
+\hypertarget{linear-model-for-dbh-70-cm}{%
+\section{linear model for dbh \textgreater{} 70
+cm}\label{linear-model-for-dbh-70-cm}}
+
+lm3 \textless- lm(y \textasciitilde{} x, data = dat3) summary(lm3)
+
+par(mfrow=c(1,1))
+
+plot(dat3\(x, dat3\)y, col=``blue'', xlab = ``Relative heights'', ylab =
+``Upper stem diameters (cm)'', main = ``Observation: upper stem diameter
+by relative heights'', cex=0.5, cex.lab=0.7, cex.main=0.7)
+
+par(mfrow=c(2,2)) plot(lm3 \textless- lm(y \textasciitilde{} x, data =
+dat3), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+par(mfrow=c(1,1))\\
+ggplot(dat3, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} x)+ stat\_poly\_eq(aes(label =
+paste0(``atop('', ..eq.label.., ``,'', ..rr.label.., ``)'')), formula =
+y \textasciitilde{} x, parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions-2}{%
+\section{Make predictions}\label{make-predictions-2}}
+
+\hypertarget{librarymodelmetrics-2}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-2}}
+
+dat3\(pred_lm3 <- lm3 %>% predict(dat3) # Model performance rmse_lm3<- rmse(dat3
+\)pred\_lm3, dat3\(Dx) rmse_lm3 mean(dat3\)dbh)
+
+\#\#\#\#Polynominal\#\#\#\#
+
+\hypertarget{polynomial-model-for-dbh-55-cm}{%
+\section{Polynomial model for dbh \textless55
+cm}\label{polynomial-model-for-dbh-55-cm}}
+
+pm1\textless-lm(y \textasciitilde{} poly(x, 2, raw=TRUE), data = dat1)
+summary(pm1)
+
+par(mfrow=c(2,2))
+
+plot(pm1 \textless- lm(y \textasciitilde{} poly(x, 2, raw = TRUE), data
+= dat1), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+par(mfrow=c(1,1))
+
+ggplot(dat1, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} poly(x, 2, raw = TRUE))+
+stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label.., ``,'',
+..rr.label.., ``)'')), formula = y \textasciitilde{} poly(x, 2, raw =
+TRUE), data = dat1, parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions-3}{%
+\section{Make predictions}\label{make-predictions-3}}
+
+\hypertarget{librarymodelmetrics-3}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-3}}
+
+dat1\(pred_pm1 <- pm1 %>% predict(dat1) # Model performance rmse_pm1<- rmse(dat1
+\)pred\_pm1, dat1\(Dx) rmse_pm1 mean(dat1\)dbh)
+
+\hypertarget{polynomial-model-for-dbh-55-70-cm}{%
+\section{Polynomial model for dbh 55-70
+cm}\label{polynomial-model-for-dbh-55-70-cm}}
+
+pm2\textless-lm(y \textasciitilde{} poly(x, 2, raw=TRUE), data = dat2)
+
+par(mfrow=c(2,2))
+
+plot(pm2 \textless- lm(y \textasciitilde{} poly(x, 2, raw = TRUE), data
+= dat2), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+ggplot(dat2, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} poly(x, 2, raw = TRUE))+
+stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label.., ``,'',
+..rr.label.., ``)'')), formula = y \textasciitilde{} poly(x, 2, raw =
+TRUE), parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions-4}{%
+\section{Make predictions}\label{make-predictions-4}}
+
+\hypertarget{librarymodelmetrics-4}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-4}}
+
+dat2\(pred_pm2 <- pm2 %>% predict(dat2) # Model performance rmse_pm2<- rmse(dat2
+\)pred\_pm2, dat2\$Dx) rmse\_pm2
+
+\hypertarget{polynomial-model-for-dbh-70-cm}{%
+\section{Polynomial model for dbh \textgreater{} 70
+cm}\label{polynomial-model-for-dbh-70-cm}}
+
+pm3\textless-lm(y \textasciitilde{} poly(x, 2, raw=TRUE), data = dat3)
+
+par(mfrow=c(2,2))
+
+plot(pm3 \textless- lm(y \textasciitilde{} poly(x, 2, raw = TRUE), data
+= dat3), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+ggplot(dat3, aes(x, y) ) + geom\_point() + stat\_smooth(method = lm,
+formula = y \textasciitilde{} poly(x, 2, raw = TRUE))+
+stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label.., ``,'',
+..rr.label.., ``)'')), formula = y \textasciitilde{} poly(x, 2, raw =
+TRUE), parse = TRUE) + theme\_bw(base\_size = 12)
+
+\hypertarget{make-predictions-5}{%
+\section{Make predictions}\label{make-predictions-5}}
+
+\hypertarget{librarymodelmetrics-5}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-5}}
+
+dat3\(pred_pm3 <- pm3 %>% predict(dat3) # Model performance rmse_pm3<- rmse(dat3
+\)pred\_pm3, dat3\$Dx) rmse\_pm3
+
+\#\#\#\#Spline\#\#\#\# \# library(splines) \# Build the model
+
+\hypertarget{bspline-regression-model-for-dbh55cm}{%
+\section{Bspline regression model for
+dbh\textless55cm}\label{bspline-regression-model-for-dbh55cm}}
+
+knots \textless-
+quantile(dat1\(x, p = c(0.25, 0.5, 0.75)) sm1 <- lm (dat1\)y
+\textasciitilde{} bs(dat1\$x, knots = knots), data = dat1) summary(sm1)
+
+\hypertarget{plot}{%
+\section{plot}\label{plot}}
+
+par(mfrow=c(1,1)) ggplot(dat1, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)
+
+par(mfrow=c(2,2)) plot(sm1 \textless- lm (dat1\(y ~ bs(dat1\)x, knots =
+knots), data = dat1), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+\hypertarget{make-predictions-6}{%
+\section{Make predictions}\label{make-predictions-6}}
+
+\hypertarget{librarymodelmetrics-6}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-6}}
+
+dat1\$pred\_sm1 \textless- sm1 \%\textgreater\% predict(dat1)
+
+\hypertarget{model-performance}{%
+\section{Model performance}\label{model-performance}}
+
+rmse\_sm1\textless- rmse(dat1\(pred_sm1, dat1\)Dx) rmse\_sm1
+
+\hypertarget{bspline-regression-model-for-dbh-55-70-cm}{%
+\section{Bspline regression model for dbh 55-70
+cm}\label{bspline-regression-model-for-dbh-55-70-cm}}
+
+knots \textless-
+quantile(dat2\(x, p = c(0.25, 0.5, 0.75)) sm2 <- lm (dat2\)y
+\textasciitilde{} bs(dat2\$x, knots = knots), data = dat2) summary(sm2)
+
+par(mfrow=c(1,1)) ggplot(dat2, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)
+
+par(mfrow=c(2,2)) plot(sm2 \textless- lm (dat2\(y ~ bs(dat2\)x, knots =
+knots), data = dat2), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+\hypertarget{make-predictions-7}{%
+\section{Make predictions}\label{make-predictions-7}}
+
+\hypertarget{librarymodelmetrics-7}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-7}}
+
+dat2\$pred\_sm2 \textless- sm2 \%\textgreater\% predict(dat2)
+
+\hypertarget{model-performance-1}{%
+\section{Model performance}\label{model-performance-1}}
+
+rmse\_sm2\textless- rmse(dat2\(pred_sm2, dat2\)Dx) rmse\_sm2
+
+\hypertarget{bspline-regression-model-for-dbh-70-cm}{%
+\section{Bspline regression model for dbh \textgreater{} 70
+cm}\label{bspline-regression-model-for-dbh-70-cm}}
+
+knots \textless-
+quantile(dat3\(x, p = c(0.25, 0.5, 0.75)) sm3 <- lm (dat3\)y
+\textasciitilde{} bs(dat3\$x, knots = knots), data = dat3) summary(sm3)
+
+par(mfrow=c(1,1)) ggplot(dat3, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)
+
+par(mfrow=c(2,2)) plot(sm3 \textless- lm (dat3\(y ~ bs(dat3\)x, knots =
+knots), data = dat3), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+\hypertarget{make-predictions-8}{%
+\section{Make predictions}\label{make-predictions-8}}
+
+\hypertarget{librarymodelmetrics-8}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-8}}
+
+dat3\$pred\_sm3 \textless- sm3 \%\textgreater\% predict(dat3)
+
+\hypertarget{model-performance-2}{%
+\section{Model performance}\label{model-performance-2}}
+
+rmse\_sm3\textless- rmse(dat3\(pred_sm3, dat3\)Dx) rmse\_sm3
+
+\hypertarget{bspline-regression-model-for-all-dbh-class}{%
+\section{Bspline regression model for all dbh
+class}\label{bspline-regression-model-for-all-dbh-class}}
+
+knots \textless-
+quantile(dat\(x, p = c(0.25, 0.5, 0.75)) sm <- lm (dat\)y
+\textasciitilde{} bs(dat\$x, knots = knots), data = dat) summary(sm)
+
+par(mfrow=c(1,1)) ggplot(dat, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)
+
+par(mfrow=c(2,2)) plot(sm \textless- lm (dat\(y ~ bs(dat\)x, knots =
+knots), data = dat), cex=0.3, cex.lab=0.8, cex.main=0.5)
+
+\hypertarget{make-predictions-9}{%
+\section{Make predictions}\label{make-predictions-9}}
+
+\hypertarget{librarymodelmetrics-9}{%
+\section{library(ModelMetrics)}\label{librarymodelmetrics-9}}
+
+dat\$pred\_sm \textless- sm \%\textgreater\% predict(dat)
+
+\hypertarget{model-performance-3}{%
+\section{Model performance}\label{model-performance-3}}
+
+rmse\_sm\textless- rmse(dat\(pred_sm, dat\)Dx) rmse\_sm
+
+\hypertarget{plots-in-1-figure}{%
+\subsection{4 plots in 1 figure}\label{plots-in-1-figure}}
+
+\hypertarget{since-updated-rstudio-some-packages-needed-to-remove-and-install-again}{%
+\section{since updated Rstudio, some packages needed to remove and
+install
+again}\label{since-updated-rstudio-some-packages-needed-to-remove-and-install-again}}
+
+\hypertarget{install.packagesggplot2}{%
+\section{install.packages(``ggplot2'')}\label{install.packagesggplot2}}
+
+fig1\textless-ggplot(dat1, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)+
+xlim(c(0,1.0))+ ylim(c(0,110))
+
+fig1
+
+fig2\textless-ggplot(dat2, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)+
+xlim(c(0,1.0))+ ylim(c(0,110))
+
+fig2
+
+fig3\textless- ggplot(dat3, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12)+
+xlim(c(0,1.0))+ ylim(c(0,110))
+
+fig3
+
+fig4\textless-ggplot(dat, aes(x, y) ) + geom\_point() +
+stat\_smooth(method = lm, formula = y \textasciitilde{} splines::bs(x,
+df = 3))+ stat\_poly\_eq(aes(label = paste0(``atop('', ..eq.label..,
+``,'', ..rr.label.., ``)'')), formula = y \textasciitilde{}
+splines::bs(x, df = 3), parse = TRUE) + theme\_bw(base\_size = 12) +
+xlim(c(0,1.0))+ ylim(c(0,110))
+
+fig4
+
+\hypertarget{in-a-single-figure}{%
+\section{in a single figure}\label{in-a-single-figure}}
+
+\hypertarget{install.packageggpubr}{%
+\section{install.package(ggpubr)}\label{install.packageggpubr}}
+
+\hypertarget{library-ggpubr}{%
+\section{library (ggpubr)}\label{library-ggpubr}}
+
+\hypertarget{install.packagecowplot}{%
+\section{install.package(cowplot)}\label{install.packagecowplot}}
+
+\hypertarget{library-cowplot}{%
+\section{library (cowplot)}\label{library-cowplot}}
+
+plot\_grid(fig1, fig2, fig3, fig4, labels = c(``Model for DBH up to 50
+cm'', ``Model for DBH class 55 - 70 cm'', ``Model for DBH greater than
+70 cm'', ``Model for all DBH class''), label\_size = 10, hjust = -1.75,
+vjust = 2.0, \# align = ``h'', axis = ``tb'', ncol = 2, nrow = 2)
+
+\hypertarget{ggarrangefig1-fig2-fig3-fig4}{%
+\section{ggarrange(fig1, fig2, fig3,
+fig4,}\label{ggarrangefig1-fig2-fig3-fig4}}
+
+\hypertarget{labels-cfigure-5-model-for-dbh-up-to-50-cm}{%
+\section{labels = c(``Figure 5: Model for DBH up to 50
+cm'',}\label{labels-cfigure-5-model-for-dbh-up-to-50-cm}}
+
+\hypertarget{figure-6-model-for-dbh-class-55---70-cm}{%
+\section{``Figure 6: Model for DBH class 55 - 70
+cm'',}\label{figure-6-model-for-dbh-class-55---70-cm}}
+
+\hypertarget{figure-7-model-for-dbh-greater-than-70-cm}{%
+\section{``Figure 7: Model for DBH greater than 70
+cm'',}\label{figure-7-model-for-dbh-greater-than-70-cm}}
+
+\hypertarget{figure-8-model-for-all-dbh-class}{%
+\section{``Figure 8: Model for all DBH
+class''),}\label{figure-8-model-for-all-dbh-class}}
+
+\hypertarget{ncol-2-nrow-2}{%
+\section{ncol = 2, nrow = 2)}\label{ncol-2-nrow-2}}
+
+\hypertarget{fifth-degree-polynomial-taper-model}{%
+\paragraph{fifth-degree polynomial taper
+model}\label{fifth-degree-polynomial-taper-model}}
+
+\#carlos-alberto-silva/rForest \# rForest: An R Package for Forest
+Inventory and Analysis \# The rForest package provides functions to \#
+i) Fit a fifth-degree polynomial taper model, \# ii) plot tree stems in
+2-D and 3-D, \# iii) plot taper models in 3-D.
+
+\hypertarget{installation}{%
+\section{Installation}\label{installation}}
+
+\#The development version: \# library(devtools) \#
+devtools::install\_github(``carlos-alberto-silva/rForest'')
+
+\#The CRAN version: \# install.packages(``rForest'')
+
+\hypertarget{d-visualization-of-tree-stems}{%
+\paragraph{2-D visualization of tree
+stems}\label{d-visualization-of-tree-stems}}
+
+\#Loading rForest and rgl libraries \# library(rForest) \# library(rgl)
+\# library(devtools) \# Importing forest inventory data \#
+data(ForestInv01) names(dat)
+
+\hypertarget{subsetting-tree-1}{%
+\section{Subsetting Tree 1}\label{subsetting-tree-1}}
+
+tree1\textless-subset(dat,dat{[},3{]}==1)
+
+hi\textless-tree1\(Hx di<-tree1\)Dx
+
+\hypertarget{plotting-stem-2d}{%
+\section{Plotting stem 2d}\label{plotting-stem-2d}}
+
+plotStem2d(hi,di, col=``\#654321'')
+
+\hypertarget{d-visualization-of-tree-stems-1}{%
+\paragraph{3-D visualization of tree
+stems}\label{d-visualization-of-tree-stems-1}}
+
+plotStem3d(hi,di,alpha=1,col=``\#654321'') box3d()
+
+\hypertarget{fitting-a-fifth-degree-polynomial-taper-model}{%
+\paragraph{Fitting a fifth-degree polynomial taper
+model}\label{fitting-a-fifth-degree-polynomial-taper-model}}
+
+\hypertarget{setting-model-parameters-dbh-and-ht-for-all-dbh-class}{%
+\section{setting model parameters dbh and ht for ALL DBH
+CLASS}\label{setting-model-parameters-dbh-and-ht-for-all-dbh-class}}
+
+names(dat)
+
+hi\textless-dat{[},20{]} di\textless-dat{[},21{]}
+ht\textless-dat{[},18{]} dbh\textless-dat{[},19{]}
+
+\hypertarget{fitting-the-fifth-degree-polynomial-taper-model}{%
+\section{fitting the fifth-degree polynomial taper
+model}\label{fitting-the-fifth-degree-polynomial-taper-model}}
+
+fit \textless- poly5Model(dbh,ht,di,hi, plotxy=TRUE) grid()
+
+par(mfcol=c(2,2)) plot(fit)
+
+summary(fit)
+
+\hypertarget{new-way-to-run-polynomial-5th-degree-taper-model}{%
+\paragraph{new way to run polynomial 5th degree taper
+model}\label{new-way-to-run-polynomial-5th-degree-taper-model}}
+
+library(ggplot2)
+
+dat \textless- dat \%\textgreater\% mutate(did = Dx/dbh, hih = Hx/Ht)
+
+ggplot(dat, aes(x = hih, y = did, group = tree\_id))+ geom\_point()+
+labs(x = `hi / h', y = `di / dbh') \# run this if error like: ``Error in
+.Call.graphics(C\_palette2, .Call(C\_palette2, NULL)) : \# invalid
+graphics state'' happens dev.off()
+
+poli5 \textless-
+lm(did\textasciitilde hih+I(hih\textsuperscript{2)+I(hih}3)+I(hih\textsuperscript{4)+I(hih}5),dat)
+summary(poli5)
+
+dat \textless- dat \%\textgreater\% mutate(Dx\_poli =
+predict(poli5)*dbh)
+
+poli\_rmse \textless- dat \%\textgreater\% summarise(RMSE =
+sqrt(sum((Dx\_poli-Dx)\^{}2)/mean(Dx\_poli))) \%\textgreater\%
+pull(RMSE) \%\textgreater\% round(2)
+
+ggplot(dat,aes(x=hih))+ geom\_point(aes(y =
+(Dx\_poli-Dx)/Dx\_poli*100))+ geom\_hline(aes(yintercept = 0))+
+scale\_y\_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+scale\_x\_continuous(limits=c(0,1))+ labs(x = `hi / h', y = `Residuals
+(\%)', title = `5th degree polynomial taper function (Schöepfer, 1966)',
+subtitle = `Dispersion of residuals along the stem', caption =
+paste0(`Root Mean Squared Error =', poli\_rmse,`\%'))+
+theme(plot.title.position = `plot')
+
+\hypertarget{timber-package}{%
+\section{timbeR package}\label{timber-package}}
+
+\hypertarget{we-will-perform-a-regression-analysis-on-the-tree_scaling-dataset-using-the}{%
+\section{We will perform a regression analysis on the tree\_scaling
+dataset, using
+the}\label{we-will-perform-a-regression-analysis-on-the-tree_scaling-dataset-using-the}}
+
+\hypertarget{aforementioned-models.-the-data-can-be-accessed-by-importing-the-timber-package.}{%
+\section{aforementioned models. The data can be accessed by importing
+the timbeR
+package.}\label{aforementioned-models.-the-data-can-be-accessed-by-importing-the-timber-package.}}
+
+\hypertarget{install.packagesdevtools}{%
+\section{install.packages(``devtools'')}\label{install.packagesdevtools}}
+
+options(download.file.method = ``libcurl'')
+devtools::install\_github(`sergiocostafh/timbeR')
+
+library(dplyr) library(timbeR)
+
+glimpse(tree\_scaling)
+
+\hypertarget{as-we-can-see-there-are-five-columns-in-the-dataset-that-refer-to-the-tree-id}{%
+\section{As we can see, there are five columns in the dataset that refer
+to the tree
+id}\label{as-we-can-see-there-are-five-columns-in-the-dataset-that-refer-to-the-tree-id}}
+
+\hypertarget{tree_id-diameter-at-breast-height-dbh-tree-total-height-h-height-at}{%
+\section{(tree\_id), diameter at breast height (dbh), tree total height
+(h), height
+at}\label{tree_id-diameter-at-breast-height-dbh-tree-total-height-h-height-at}}
+
+\hypertarget{section-i-hi-and-diameter-at-hi-height-di.}{%
+\section{section i (hi) and diameter at hi height
+(di).}\label{section-i-hi-and-diameter-at-hi-height-di.}}
+
+\hypertarget{a-common-way-to-visualize-the-stem-profile-from-collected-data-is-to-plot-the}{%
+\section{A common way to visualize the stem profile from collected data
+is to plot
+the}\label{a-common-way-to-visualize-the-stem-profile-from-collected-data-is-to-plot-the}}
+
+\hypertarget{relationship-between-relative-diameters-and-relative-heights}{%
+\section{relationship between relative diameters and relative
+heights}\label{relationship-between-relative-diameters-and-relative-heights}}
+
+\hypertarget{di-dbh-vs-hi-ht-as-follows.}{%
+\section{(di / dbh vs hi / ht), as
+follows.}\label{di-dbh-vs-hi-ht-as-follows.}}
+
+library(ggplot2)
+
+\hypertarget{trying-in-package-dataset-tree_scaling}{%
+\section{trying in package dataset
+tree\_scaling}\label{trying-in-package-dataset-tree_scaling}}
+
+tree\_scaling \textless- tree\_scaling \%\textgreater\% mutate(did =
+di/dbh, hih = hi/h)
+
+ggplot(tree\_scaling, aes(x = hih, y = did, group = tree\_id))+
+geom\_point()+ labs(x = `hi / h', y = `di / dbh')
+
+\hypertarget{now-that-we-understand-the-dataset-we-can-start-the-regression-analysis.}{%
+\section{Now that we understand the dataset, we can start the regression
+analysis.}\label{now-that-we-understand-the-dataset-we-can-start-the-regression-analysis.}}
+
+\hypertarget{the-first-model-we-will-fit-is-the-5th-degree-polynomial.}{%
+\section{The first model we will fit is the 5th degree
+polynomial.}\label{the-first-model-we-will-fit-is-the-5th-degree-polynomial.}}
+
+poli5 \textless-
+lm(did\textasciitilde hih+I(hih\textsuperscript{2)+I(hih}3)+I(hih\textsuperscript{4)+I(hih}5),tree\_scaling)
+summary(poli5)
+
+tree\_scaling \textless- tree\_scaling \%\textgreater\% mutate(di\_poli
+= predict(poli5)*dbh)
+
+poli\_rmse \textless- tree\_scaling \%\textgreater\% summarise(RMSE =
+sqrt(sum((di\_poli-di)\^{}2)/mean(di\_poli))) \%\textgreater\%
+pull(RMSE) \%\textgreater\% round(2)
+
+ggplot(tree\_scaling,aes(x=hih))+ geom\_point(aes(y =
+(di\_poli-di)/di\_poli*100))+ geom\_hline(aes(yintercept = 0))+
+scale\_y\_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+scale\_x\_continuous(limits=c(0,1))+ labs(x = `hi / h', y = `Residuals
+(\%)', title = `5th degree polynomial taper function (Schöepfer, 1966)',
+subtitle = `Dispersion of residuals along the stem', caption =
+paste0(`Root Mean Squared Error =', poli\_rmse,`\%'))+
+theme(plot.title.position = `plot')
+
+\hypertarget{the-5th-degree-polynomial-is-a-fixed-form-taper-function-that-represents-the}{%
+\section{The 5th degree polynomial is a fixed-form taper function that
+represents
+the}\label{the-5th-degree-polynomial-is-a-fixed-form-taper-function-that-represents-the}}
+
+\hypertarget{average-shape-of-the-stem-profiles-used-to-fit-the-model.}{%
+\section{average shape of the stem profiles used to fit the
+model.}\label{average-shape-of-the-stem-profiles-used-to-fit-the-model.}}
+
+\hypertarget{for-this-dataset-the-root-mean-square-error-of-this-model-was-3.01-and}{%
+\section{For this dataset, the Root Mean Square Error of this model was
+3.01\%
+and}\label{for-this-dataset-the-root-mean-square-error-of-this-model-was-3.01-and}}
+
+\hypertarget{we-can-see-that-the-residues-are-heteroskedastic.}{%
+\section{we can see that the residues are
+heteroskedastic.}\label{we-can-see-that-the-residues-are-heteroskedastic.}}
+
+\hypertarget{lets-see-if-we-can-do-better-with-the-bi-model.due-to-its-non-linear-nature}{%
+\section{Let's see if we can do better with the Bi model.Due to its
+non-linear
+nature,}\label{lets-see-if-we-can-do-better-with-the-bi-model.due-to-its-non-linear-nature}}
+
+\hypertarget{we-will-use-the-nlslm-function-from-the-minpack.lm-package-to-estimate-the}{%
+\section{we will use the nlsLM function from the minpack.lm package to
+estimate
+the}\label{we-will-use-the-nlslm-function-from-the-minpack.lm-package-to-estimate-the}}
+
+\hypertarget{model-parameters.}{%
+\section{model parameters.}\label{model-parameters.}}
+
+install.packages(``minpack.lm'') library(minpack.lm)
+
+bi \textless- nlsLM(di \textasciitilde{} taper\_bi(dbh, h, hih, b0, b1,
+b2, b3, b4, b5, b6), data=tree\_scaling,
+start=list(b0=1.8,b1=-0.2,b2=-0.04,b3=-0.9,b4=-0.0006,b5=0.07,b6=-.14))
+summary(bi)
+
+tree\_scaling \textless- tree\_scaling \%\textgreater\% mutate(di\_bi =
+predict(bi))
+
+bi\_rmse \textless- tree\_scaling \%\textgreater\% summarise(RMSE =
+sqrt(sum((di\_bi-di)\^{}2)/mean(di\_bi))) \%\textgreater\% pull(RMSE)
+\%\textgreater\% round(2)
+
+ggplot(tree\_scaling,aes(x=hih))+ geom\_point(aes(y =
+(di\_bi-di)/di\_bi*100))+ geom\_hline(aes(yintercept = 0))+
+scale\_y\_continuous(limits=c(-60,60), breaks = seq(-100,100,20))+
+scale\_x\_continuous(limits=c(0,1))+ labs(x = `hi / h', y = `Residuals
+(\%)', title = `Bi (2000) trigonometric variable-form taper function',
+subtitle = `Dispersion of residuals along the stem', caption =
+paste0(`Root Mean Squared Error =', bi\_rmse,`\%'))+
+theme(plot.title.position = `plot')
+
+\hypertarget{the-bi-model-performed-better-than-the-polynomial-function-based-on-the-rmse-value.}{%
+\section{The Bi model performed better than the polynomial function,
+based on the RMSE
+value.}\label{the-bi-model-performed-better-than-the-polynomial-function-based-on-the-rmse-value.}}
+
+\hypertarget{however-we-still-have-heteroscedasticity-in-the-residues.-lets-see-what-we-get-by}{%
+\section{However, we still have heteroscedasticity in the residues.
+Let's see what we get
+by}\label{however-we-still-have-heteroscedasticity-in-the-residues.-lets-see-what-we-get-by}}
+
+\hypertarget{the-kozak-2004-model.-we-will-treat-the-p-parameter-of-this-model-as}{%
+\section{\texorpdfstring{\adjusting the Kozak (2004) model. We will
+treat the p parameter of this model
+as}{the Kozak (2004) model. We will treat the p parameter of this model as}}\label{the-kozak-2004-model.-we-will-treat-the-p-parameter-of-this-model-as}}
+
+\hypertarget{one-more-to-be-estimated-using-the-nlslm-function.}{%
+\section{one more to be estimated using the nlsLM
+function.}\label{one-more-to-be-estimated-using-the-nlslm-function.}}
+
+kozak \textless- nlsLM(di \textasciitilde{} taper\_kozak(dbh, h, hih,
+b0, b1, b2, b3, b4, b5, b6, b7, b8, p),
+start=list(b0=1.00,b1=.97,b2=.03,b3=.49,b4=-
+0.87,b5=0.50,b6=3.88,b7=0.03,b8=-0.19, p = .1), data = tree\_scaling,
+control = nls.lm.control(maxiter = 1000, maxfev = 2000) ) summary(kozak)
+
+tree\_scaling \textless- tree\_scaling \%\textgreater\% mutate(di\_kozak
+= predict(kozak))
+
+kozak\_rmse \textless- tree\_scaling \%\textgreater\% summarise(RMSE =
+sqrt(sum((di\_kozak-di)\^{}2)/mean(di\_kozak))) \%\textgreater\%
+pull(RMSE) \%\textgreater\% round(2)
+
+ggplot(tree\_scaling, aes(x=hih))+ geom\_point(aes(y =
+(di\_kozak-di)/di\_kozak*100))+ geom\_hline(aes(yintercept = 0))+
+scale\_y\_continuous(limits=c(-100,100), breaks = seq(-100,100,20))+
+scale\_x\_continuous(limits=c(0,1))+ labs(x = `hi / h', y = `Residuals
+(\%)', title = `Kozak (2004) variable-form taper function', subtitle =
+`Dispersion of residuals along the stem', caption = paste0(`Root Mean
+Squared Error =', kozak\_rmse,`\%'))+ theme(plot.title.position =
+`plot')
+
+\hypertarget{by-fitting-the-kozak-2004-model-we-obtained-a-lower-rmse-and-also-managed-to}{%
+\section{By fitting the Kozak (2004) model, we obtained a lower RMSE and
+also managed
+to}\label{by-fitting-the-kozak-2004-model-we-obtained-a-lower-rmse-and-also-managed-to}}
+
+\hypertarget{homogenize-the-dispersion-of-the-residues.}{%
+\section{homogenize the dispersion of the
+residues.}\label{homogenize-the-dispersion-of-the-residues.}}
+
+\hypertarget{section-2}{%
+\section{}\label{section-2}}
+
+\hypertarget{using-taper-models}{%
+\section{Using taper models}\label{using-taper-models}}
+
+\hypertarget{in-the-previous-section-we-adjusted-the-three-models-that-have-auxiliary-functions}{%
+\section{In the previous section we adjusted the three models that have
+auxiliary
+functions}\label{in-the-previous-section-we-adjusted-the-three-models-that-have-auxiliary-functions}}
+
+\hypertarget{implemented-in-the-timber-package.-now-lets-explore-the-functions-that-allow-us}{%
+\section{implemented in the timbeR package. Now, let's explore the
+functions that allow
+us}\label{implemented-in-the-timber-package.-now-lets-explore-the-functions-that-allow-us}}
+
+\hypertarget{to-apply-the-fitted-models-in-practice.}{%
+\section{to apply the fitted models in
+practice.}\label{to-apply-the-fitted-models-in-practice.}}
+
+dbh \textless- 25 h \textless- 20
+
+\hypertarget{all-auxiliary-functions-have-the-argument-coef-where-a-vector}{%
+\section{All auxiliary functions have the argument coef, where a
+vector}\label{all-auxiliary-functions-have-the-argument-coef-where-a-vector}}
+
+\hypertarget{containing-the-fitted-coefficients-of-the-model-must-be-declared.}{%
+\section{containing the fitted coefficients of the model must be
+declared.}\label{containing-the-fitted-coefficients-of-the-model-must-be-declared.}}
+
+\hypertarget{this-vector-can-be-accessed-by-using-the-base-r-function-coef.}{%
+\section{This vector can be accessed by using the base R function
+coef.}\label{this-vector-can-be-accessed-by-using-the-base-r-function-coef.}}
+
+\hypertarget{for-the-kozak-2004-model-we-will-separate-the-p-parameter-from-the}{%
+\section{For the Kozak (2004) model, we will separate the p parameter
+from
+the}\label{for-the-kozak-2004-model-we-will-separate-the-p-parameter-from-the}}
+
+\hypertarget{others.}{%
+\section{others.}\label{others.}}
+
+coef\_poli \textless- coef(poli5) coef\_bi \textless- coef(bi)
+coef\_kozak \textless- coef(kozak){[}-10{]} p\_kozak \textless-
+coef(kozak){[}10{]}
+
+\hypertarget{now-we-can-estimate-the-diameter-di-at-a-given-height-hi.}{%
+\section{Now we can estimate the diameter (di) at a given height
+(hi).}\label{now-we-can-estimate-the-diameter-di-at-a-given-height-hi.}}
+
+\hypertarget{lets-assume-hi-15-for-this-example.}{%
+\section{Let's assume hi = 15 for this
+example.}\label{lets-assume-hi-15-for-this-example.}}
+
+hi \textless- 15
+
+poly5\_di(dbh, h, hi, coef\_poli) \#\textgreater{} {[}1{]} 9.224517
+bi\_di(dbh, h, hi, coef\_bi) \#\textgreater{} {[}1{]} 8.559173
+kozak\_di(dbh, h, hi, coef\_kozak, p = p\_kozak) \#\textgreater{}
+{[}1{]} 8.92263 \#\textgreater{} \#Note that there is some variation
+between the predictions of the models \# We can better observe this
+effect by modeling the complete profile \# of our example tree.
+
+hi \textless- seq(0.1,h,.1)
+
+ggplot(mapping=aes(x=hi))+ geom\_line(aes(y=poly5\_di(dbh, h, hi,
+coef\_poli), linetype = `5th degree polynomial'))+
+geom\_line(aes(y=bi\_di(dbh, h, hi, coef\_bi), linetype = `Bi (2000)'))+
+geom\_line(aes(y=kozak\_di(dbh, h, hi, coef\_kozak, p\_kozak), linetype
+= `Kozak (2004)'))+ scale\_linetype\_manual(name = `Fitted models',
+values = c(`solid',`dashed',`dotted'))+ labs(x = `hi (m)', y =
+`Predicted di (cm)')
+
+\hypertarget{for-the-prediction-of-the-height-at-which-a-given-diameter-occurs-the}{%
+\section{For the prediction of the height at which a given diameter
+occurs
+the}\label{for-the-prediction-of-the-height-at-which-a-given-diameter-occurs-the}}
+
+\hypertarget{procedure-is-similar-to-the-one-presented-above-but-this-time-we-must}{%
+\section{procedure is similar to the one presented above, but this time
+we
+must}\label{procedure-is-similar-to-the-one-presented-above-but-this-time-we-must}}
+
+\hypertarget{declare-the-argument-di-instead-of-hi-for-the-corresponding-functions.}{%
+\section{declare the argument di instead of hi, for the corresponding
+functions.}\label{declare-the-argument-di-instead-of-hi-for-the-corresponding-functions.}}
+
+di \textless- 10
+
+poly5\_hi(dbh, h, di, coef\_poli) \#\textgreater{} {[}1{]} 14.40821
+bi\_hi(dbh, h, di, coef\_bi) \#\textgreater{} {[}1{]} 14.09805
+kozak\_hi(dbh, h, di, coef\_kozak, p\_kozak) \#\textgreater{} {[}1{]}
+14.2817
+
+\hypertarget{for-this-example-the-application-of-the-three-models-resulted-in-very}{%
+\section{For this example the application of the three models resulted
+in
+very}\label{for-this-example-the-application-of-the-three-models-resulted-in-very}}
+
+\hypertarget{similar-predictions.}{%
+\section{similar predictions.}\label{similar-predictions.}}
+
+\hypertarget{the-functions-for-estimating-total-and-partial-volumes-are-similar-to}{%
+\section{The functions for estimating total and partial volumes are
+similar
+to}\label{the-functions-for-estimating-total-and-partial-volumes-are-similar-to}}
+
+\hypertarget{those-presented-so-far-with-some-additional-arguments.-the-following}{%
+\section{those presented so far, with some additional arguments. The
+following}\label{those-presented-so-far-with-some-additional-arguments.-the-following}}
+
+\hypertarget{procedures-calculate-the-volume-of-the-entire-stem.}{%
+\section{procedures calculate the volume of the entire
+stem.}\label{procedures-calculate-the-volume-of-the-entire-stem.}}
+
+poly5\_vol(dbh, h, coef\_poli) \#\textgreater{} {[}1{]} 0.414718
+bi\_vol(dbh, h, coef\_bi) \#\textgreater{} {[}1{]} 0.4128356
+kozak\_vol(dbh, h, coef\_kozak, p\_kozak) \#\textgreater{} {[}1{]}
+0.413102 \# We can also estimate partial volumes by declaring the
+initial height \# h0 and the final height hi.
+
+hi = 15 h0 = .2
+
+poly5\_vol(dbh, h, coef\_poli, hi, h0) \#\textgreater{} {[}1{]}
+0.3884416 bi\_vol(dbh, h, coef\_bi, hi, h0) \#\textgreater{} {[}1{]}
+0.3901346 kozak\_vol(dbh, h, coef\_kozak, p\_kozak, hi, h0)
+\#\textgreater{} {[}1{]} 0.3863585
+
+\hypertarget{finally-we-will-see-how-the-three-models-estimate-the-volume-and}{%
+\section{Finally, we will see how the three models estimate the volume
+and}\label{finally-we-will-see-how-the-three-models-estimate-the-volume-and}}
+
+\hypertarget{quantity-of-logs-from-different-wood-products.-we-start-by-defining}{%
+\section{quantity of logs from different wood products. We start by
+defining}\label{quantity-of-logs-from-different-wood-products.-we-start-by-defining}}
+
+\hypertarget{the-assortments.}{%
+\section{the assortments.}\label{the-assortments.}}
+
+\hypertarget{the-assortment-table-must-contain-five-columns-in-order-the-product}{%
+\section{The assortment table must contain five columns, in order: the
+product}\label{the-assortment-table-must-contain-five-columns-in-order-the-product}}
+
+\hypertarget{name-the-log-diameter-at-the-small-end-cm-the-minimum-length-m}{%
+\section{name, the log diameter at the small end (cm), the minimum
+length
+(m),}\label{name-the-log-diameter-at-the-small-end-cm-the-minimum-length-m}}
+
+\hypertarget{the-maximum-length-m-and-the-loss-resulting-from-cutting-each-log}{%
+\section{the maximum length (m), and the loss resulting from cutting
+each
+log}\label{the-maximum-length-m-and-the-loss-resulting-from-cutting-each-log}}
+
+\hypertarget{cm.-lets-transcribe-the-following-table-into-a-data.frame.-a-point}{%
+\section{(cm). Let's transcribe the following table into a data.frame. A
+point}\label{cm.-lets-transcribe-the-following-table-into-a-data.frame.-a-point}}
+
+\hypertarget{of-attention-is-that-the-wood-products-must-be-ordered-in-the}{%
+\section{of attention is that the wood products must be ordered in
+the}\label{of-attention-is-that-the-wood-products-must-be-ordered-in-the}}
+
+\hypertarget{data.frame-from-the-most-valuable-to-the-least-valuable-in-order-to}{%
+\section{data.frame from the most valuable to the least valuable, in
+order
+to}\label{data.frame-from-the-most-valuable-to-the-least-valuable-in-order-to}}
+
+\hypertarget{give-preference-to-the-products-of-highest-commercial-value.}{%
+\section{give preference to the products of highest commercial
+value.}\label{give-preference-to-the-products-of-highest-commercial-value.}}
+
+assortments \textless- data.frame( NAME = c(`\textgreater{} 15',`4-15'),
+SED = c(15,4), MINLENGTH = c(2.65,2), MAXLENGTH = c(2.65,4.2), LOSS =
+c(5,5) )
+
+\hypertarget{estimate-volume-and-quantity-of-wood-products-in-a-tree-stem}{%
+\section{estimate volume and quantity of wood products in a tree
+stem}\label{estimate-volume-and-quantity-of-wood-products-in-a-tree-stem}}
+
+poly5\_logs(dbh, h, coef\_poli, assortments)
+
+bi\_logs(dbh, h, coef\_bi, assortments)
+
+kozak\_logs(dbh, h, coef\_kozak, p\_kozak, assortments)
+
+\hypertarget{there-are-several-additional-arguments-in-the-log-volumequantity-estimation}{%
+\section{There are several additional arguments in the log
+volume/quantity
+estimation}\label{there-are-several-additional-arguments-in-the-log-volumequantity-estimation}}
+
+\hypertarget{functions-that-change-the-way-the-calculations-are-performed.-it-is-highly}{%
+\section{functions that change the way the calculations are performed.
+It is
+highly}\label{functions-that-change-the-way-the-calculations-are-performed.-it-is-highly}}
+
+\hypertarget{recommended-that-you-read-the-functions-help-to-understand-all-its-functionality.}{%
+\section{recommended that you read the function's help to understand all
+its
+functionality.}\label{recommended-that-you-read-the-functions-help-to-understand-all-its-functionality.}}
+
+\hypertarget{an-additional-feature-of-the-timber-package-is-the-possibility-to-visualize}{%
+\section{An additional feature of the timbeR package is the possibility
+to
+visualize}\label{an-additional-feature-of-the-timber-package-is-the-possibility-to-visualize}}
+
+\hypertarget{how-the-processing-of-trees-is-performed-by-the-logs-estimation-functions.}{%
+\section{how the processing of trees is performed by the logs estimation
+functions.}\label{how-the-processing-of-trees-is-performed-by-the-logs-estimation-functions.}}
+
+\hypertarget{the-arguments-of-these-functions-are-practically-the-same-arguments-of-the}{%
+\section{The arguments of these functions are practically the same
+arguments of
+the}\label{the-arguments-of-these-functions-are-practically-the-same-arguments-of-the}}
+
+\hypertarget{functions-presented-above.}{%
+\section{functions presented above.}\label{functions-presented-above.}}
+
+poly5\_logs\_plot(dbh, h, coef\_poli, assortments)
+
+bi\_logs\_plot(dbh, h, coef\_bi, assortments)
+
+kozak\_logs\_plot(dbh, h, coef\_kozak, p\_kozak, assortments)
+
+\hypertarget{using-timber-functions-at-forest-inventory-scale}{%
+\section{Using timbeR functions at forest inventory
+scale}\label{using-timber-functions-at-forest-inventory-scale}}
+
+\hypertarget{log-estimation-functions-are-performed-one-tree-at-a-time.}{%
+\section{Log estimation functions are performed one tree at a
+time.}\label{log-estimation-functions-are-performed-one-tree-at-a-time.}}
+
+\hypertarget{applying-these-functions-to-multiple-trees-can-be-performed-in-different-ways.}{%
+\section{Applying these functions to multiple trees can be performed in
+different
+ways.}\label{applying-these-functions-to-multiple-trees-can-be-performed-in-different-ways.}}
+
+\hypertarget{below-are-some-examples-using-the-base-r-function-mapply-and-using-pmap-function}{%
+\section{Below are some examples using the base R function mapply and
+using pmap
+function}\label{below-are-some-examples-using-the-base-r-function-mapply-and-using-pmap-function}}
+
+\hypertarget{from-purrr-package.}{%
+\section{from purrr package.}\label{from-purrr-package.}}
+
+\hypertarget{using-mapply}{%
+\section{Using mapply}\label{using-mapply}}
+
+tree\_data \textless- data.frame(dbh = c(18.3, 23.7, 27.2, 24.5, 20,
+19.7), h = c(18, 24, 28, 24, 18.5, 19.2))
+
+assortment\_vol \textless- mapply( poly5\_logs, dbh =
+tree\_data\(dbh,  h = tree_data\)h, SIMPLIFY = T, MoreArgs = list( coef
+= coef\_poli, assortments = assortments, stump\_height = 0.2,
+total\_volume = T, only\_vol = T ) ) \%\textgreater\% t()
+
+assortment\_vol
+
+\hypertarget{binding-tree_data-and-volumes-output}{%
+\section{Binding tree\_data and volumes
+output}\label{binding-tree_data-and-volumes-output}}
+
+library(tidyr)
+
+cbind(tree\_data, assortment\_vol) \%\textgreater\% unnest()
+
+library(purrr)
+
+tree\_data \%\textgreater\% mutate(coef = list(coef\_poli), assortments
+= list(assortments), stump\_height = 0.2, total\_volume = T, only\_vol =
+T) \%\textgreater\% mutate(assortment\_vol = pmap(.,poly5\_logs))
+\%\textgreater\% select(dbh, h, assortment\_vol) \%\textgreater\%
+unnest(assortment\_vol)
+
+\end{document}
